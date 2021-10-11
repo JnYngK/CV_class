@@ -112,9 +112,9 @@ def initialize_model(model_name, num_classes, feature_extract, use_pretrained=Tr
     input_size = 0
 
     if model_name == "resnet":
-        """ Resnet18
+        """ Resnet152
         """
-        model_ft = models.resnet18(pretrained=use_pretrained)
+        model_ft = models.resnet152(pretrained=use_pretrained)
         set_parameter_requires_grad(model_ft, feature_extract)
         num_ftrs = model_ft.fc.in_features
         model_ft.fc = nn.Linear(num_ftrs, num_classes)
@@ -217,8 +217,8 @@ def main():
     print("Initializing Datasets and Dataloaders...")
 
     # Create training and validation datasets
-    image_datasets = {x: KoreanFoodDataset(f'data/{x}/{x}/{x}.json',
-                                           f'data/{x}/{x}',
+    image_datasets = {x: KoreanFoodDataset(f'data/{x}/{x}.json',
+                                           f'data/{x}',
                                            data_transforms[x]) for x in ['train', 'val']}
     # Create training and validation dataloaders
     dataloaders_dict = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=batch_size, shuffle=True, num_workers=4) for x in ['train', 'val']}
